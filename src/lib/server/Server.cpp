@@ -1791,18 +1791,22 @@ void Server::sendDragInfo(BaseClientProxy *newScreen) {
 }
 
 void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy) {
-  LOG((CLOG_DEBUG2 "onMouseMoveSecondary %+d,%+d", dx, dy));
+  LOG((CLOG_DEBUG2 "onMouseMoveSecondary initial %+d,%+d", dx, dy));
   const char* envVal = std::getenv("SYNERGY_MOUSE_ADJUSTMENT");
   if (envVal != nullptr) {
     try {
       double multiplier = std::stod(envVal); // Convert to double
-      dx = static_cast<SInt32>(std::round(dx * multiplier)); // Apply multiplier and round
-      dy = static_cast<SInt32>(std::round(dy * multiplier));
-      LOG((CLOG_DEBUG1 "Adjusted to %+d,%+d using multiplier %.2f", dx, dy, multiplier));
+      SInt32 adjustedDx = static_cast<SInt32>(std::round(dx * multiplier)); // Apply multiplier and round
+      SInt32 adjustedDy = static_cast<SInt32>(std::round(dy * multiplier));
+      LOG((CLOG_DEBUG1 "Adjusted to %+d,%+d using multiplier %.2f", adjustedDx, adjustedDy, multiplier));
+      dx = adjustedDx; // Update dx and dy to adjusted values
+      dy = adjustedDy;
     } catch (const std::exception& e) {
-    // Log the error message from the exception
-    LOG((CLOG_ERR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s. Exception: %s", envVal, e.what()));
+      // Log the error message from the exception
+      LOG((CLOG_ERR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s. Exception: %s", envVal, e.what()));
     }
+  } else {
+    LOG((CLOG_DEBUG1 "SYNERGY_MOUSE_ADJUSTMENT not set, using original values %+d,%+d", dx, dy));
   }
 
   // mouse move on secondary (client's) screen
