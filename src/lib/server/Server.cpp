@@ -1801,7 +1801,7 @@ void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy) {
       LOG((CLOG_DEBUG1 "Adjusted to %+d,%+d using multiplier %.2f", dx, dy, multiplier));
     } catch (const std::exception& e) {
     // Log the error message from the exception
-    LOG((CLOG_ERROR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s. Exception: %s", envVal, e.what()));
+    LOG((CLOG_ERR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s. Exception: %s", envVal, e.what()));
     }
   }
 
