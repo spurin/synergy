@@ -1800,8 +1800,8 @@ void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy) {
       dy = static_cast<SInt32>(std::round(dy * multiplier));
       LOG((CLOG_DEBUG1 "Adjusted to %+d,%+d using multiplier %.2f", dx, dy, multiplier));
     } catch (const std::exception& e) {
-      // Handle error
-      LOG((CLOG_ERR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s", envVal));
+    // Log the error message from the exception
+    LOG((CLOG_ERROR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s. Exception: %s", envVal, e.what()));
     }
   }
 
