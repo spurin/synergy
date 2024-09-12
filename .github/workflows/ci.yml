@@ -134,6 +134,7 @@ jobs:
           package-version: ${{ env.SYNERGY_VERSION }}
 
   macos:
+    environment: developer
     needs: setup
     name: ${{ matrix.target.name }}
     runs-on: ${{ matrix.target.os }}
@@ -221,6 +222,7 @@ jobs:
           package-version: ${{ env.SYNERGY_VERSION }}
 
   linux-matrix:
+    environment: developer
     runs-on: ubuntu-latest
 
     outputs:
@@ -239,6 +241,7 @@ jobs:
           jq-filter: .distro |= map(select(.["runs-on"] | contains("arm64") | not))
 
   linux:
+    environment: developer
     needs: [setup, linux-matrix]
     name: linux-${{ matrix.distro.name }}
     runs-on: ${{ matrix.distro.runs-on }}
@@ -307,6 +310,7 @@ jobs:
 
   # Technically, "unix" is a misnomer, but we use it here to mean "Unix-like BSD-derived".
   unix:
+    environment: developer
     needs: setup
     name: unix-${{ matrix.distro.name }}
     runs-on: ${{ vars.CI_UNIX_RUNNER || 'ubuntu-24.04' }}
