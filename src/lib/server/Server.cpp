@@ -1798,7 +1798,7 @@ void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy) {
       double multiplier = std::stod(envVal); // Convert to double
       SInt32 adjustedDx = static_cast<SInt32>(std::round(dx * multiplier)); // Apply multiplier and round
       SInt32 adjustedDy = static_cast<SInt32>(std::round(dy * multiplier));
-      LOG((CLOG_DEBUG1 "Adjusted to %+d,%+d using multiplier %.2f", adjustedDx, adjustedDy, multiplier));
+      LOG((CLOG_DEBUG2 "Adjusted to %+d,%+d using multiplier %.2f", adjustedDx, adjustedDy, multiplier));
       dx = adjustedDx; // Update dx and dy to adjusted values
       dy = adjustedDy;
     } catch (const std::exception& e) {
