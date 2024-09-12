@@ -42,6 +42,7 @@ jobs:
         uses: ./.github/actions/run-tests-setup
 
   windows:
+    environment: developer
     needs: setup
     name: ${{ matrix.target.name }}
     runs-on: ${{ matrix.target.runs-on }}
