@@ -26,7 +26,7 @@ env:
   SYNERGY_ENABLE_ACTIVATION: ${{ vars.SYNERGY_ENABLE_ACTIVATION }}
   PACKAGE_BUILD: ${{ !github.event.pull_request.draft }}
   PACKAGE_UPLOAD: ${{ !github.event.pull_request.draft && github.ref_name != 'master' }}
-  UPLOAD_TO_GITHUB: ${{ github.event_name == 'pull_request' && !github.event.pull_request.draft }}
+  UPLOAD_TO_GITHUB: true
   UPLOAD_TO_GDRIVE: false
 
 jobs:
