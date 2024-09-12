@@ -45,6 +45,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <cmath>
+
 
 using namespace synergy::license;
 using namespace synergy::server;
@@ -1790,6 +1792,18 @@ void Server::sendDragInfo(BaseClientProxy *newScreen) {
 
 void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy) {
   LOG((CLOG_DEBUG2 "onMouseMoveSecondary %+d,%+d", dx, dy));
+  const char* envVal = std::getenv("SYNERGY_MOUSE_ADJUSTMENT");
+  if (envVal != nullptr) {
+    try {
+      double multiplier = std::stod(envVal); // Convert to double
+      dx = static_cast<SInt32>(std::round(dx * multiplier)); // Apply multiplier and round
+      dy = static_cast<SInt32>(std::round(dy * multiplier));
+      LOG((CLOG_DEBUG1 "Adjusted to %+d,%+d using multiplier %.2f", dx, dy, multiplier));
+    } catch (const std::exception& e) {
+      // Handle error
+      LOG((CLOG_ERROR "Invalid SYNERGY_MOUSE_ADJUSTMENT value: %s", envVal));
+    }
+  }
 
   // mouse move on secondary (client's) screen
   assert(m_active != NULL);
